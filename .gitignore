@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Cache Session for @open-wa/wa-automate
+_IGNORE_*
+
+# Variables for @open-wa/wa-automate
+.node-persist
