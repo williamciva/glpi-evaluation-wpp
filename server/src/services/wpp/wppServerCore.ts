@@ -1,1 +1,0 @@
-import { create, Client, decryptMedia, ev } from '@open-wa/wa-automate';
