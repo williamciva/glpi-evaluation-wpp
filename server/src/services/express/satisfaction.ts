@@ -32,9 +32,5 @@ satisfaction.post("/", async (req: express.Request, res: express.Response) => {
 
 });
 
-satisfaction.get("/", (req: express.Request, res: express.Response) => {
-    res.send("ota coisa")
-});
-
 
 export { satisfaction }

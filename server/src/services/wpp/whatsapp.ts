@@ -1,8 +1,8 @@
-import { create, Client, NotificationLanguage, ConfigObject } from '@open-wa/wa-automate';
-
+import { create, Client, NotificationLanguage, ConfigObject, ev } from '@open-wa/wa-automate';
 
 
 var client: Client;
+
 
 const launchConfig: ConfigObject = {
     useChrome: true,
@@ -15,13 +15,13 @@ const launchConfig: ConfigObject = {
         pass: "q!{D5<w'Zh2f^R8"
     },
     discord: "",
-    ezqr: true,
     headless: true,
     hostNotificationLang: NotificationLanguage.PTBR,
     logFile: true,
     multiDevice: true,
     qrLogSkip: true,
-    qrTimeout: 0
+    qrTimeout: 0,
+    popup: 3000
 };
 
 
