@@ -108,3 +108,9 @@ _IGNORE_*
 
 # Variables for @open-wa/wa-automate
 .node-persist
+
+# Json data of session Whatsapp
+*.data.json
+
+# Folder of build
+build

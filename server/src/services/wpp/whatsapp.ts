@@ -1,35 +1,34 @@
-import { create, Client, NotificationLanguage, ConfigObject, ev } from '@open-wa/wa-automate';
+import { create, Client, ConfigObject, ev } from '@open-wa/wa-automate';
+import * as fs from "fs";
+import Path from "path"
 
 
-var client: Client;
+const clientSessionRegistry = new Map();
+const pathToQrs = Path.resolve(__dirname, '../express/public/qrcode');
 
 
-const launchConfig: ConfigObject = {
-    useChrome: true,
-    autoRefresh: true,
-    cacheEnabled: false,
-    sessionId: 'glpiEvaluation',
-    authTimeout: 60,
-    devtools: {
-        user: "admin",
-        pass: "q!{D5<w'Zh2f^R8"
-    },
-    discord: "",
-    headless: true,
-    hostNotificationLang: NotificationLanguage.PTBR,
-    logFile: true,
-    multiDevice: true,
-    qrLogSkip: true,
-    qrTimeout: 0,
-    popup: 3000
-};
+const start = (client: Client) => {
+    clientSessionRegistry.set(client.getSessionId(), client)
+}
 
 
-const start = () => {
-    create(launchConfig).then((clientC: Client) => {
-        client = clientC;
+const createSession = async (launchConfig: ConfigObject) => {
+    return await create(launchConfig).then((client) => {
+        start(client)
+        return client.getSessionId()
     })
 }
 
 
-export { client, start }
+ev.on('qr.**', async (qrcode, sessionId) => {
+    const imageBuffer = Buffer.from(qrcode.replace('data:image/png;base64,', ''), 'base64');
+    fs.writeFileSync(`${pathToQrs}\\${sessionId}.png`, imageBuffer);
+});
+
+
+const getClient = (sessionId: string) => {
+    return clientSessionRegistry.get(sessionId)
+}
+
+
+export { getClient, createSession, pathToQrs }
