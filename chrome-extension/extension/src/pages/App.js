@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-
-
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (localStorage.getItem("serverProvider") != null) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
 
   const [serverProvider, setServerProvider] = useState("")
@@ -16,6 +19,7 @@ function App() {
 
   const saveServerProvider = () => {
     localStorage.setItem("serverProvider", serverProvider)
+    navigate("/login");
   }
 
 
