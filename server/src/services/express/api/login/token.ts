@@ -1,11 +1,10 @@
 import { ConfigObject, NotificationLanguage } from "@open-wa/wa-automate";
 import express from "express";
-import path from "path";
 import * as fs from "fs";
 import * as crypto from "crypto"
-import { createSession, pathToQrs } from "../wpp/whatsapp"
+import { createSession, pathToQrs } from "../../../wpp/whatsapp"
 
-const login = express()
+const token = express()
 
 const session = crypto.randomBytes(10).toString('hex')
 
@@ -21,17 +20,16 @@ const launchConfig: ConfigObject = {
     multiDevice: true,
     qrLogSkip: true,
     qrTimeout: 0,
-    popup: 3000,
+    popup: 3333,
     sessionId: session
 };
 
 
-login.post("/", async (req: express.Request, res: express.Response) => {
+token.get("/", async (req: express.Request, res: express.Response) => {
     try {
         createSession(launchConfig);
 
-        const pathQrCode = `${__dirname}\\public\\qrcode\\${session}.png`
-
+        const pathQrCode = `${__dirname}\\..\\..\\public\\qrcode\\${session}.png`
         for (let i = 0; i < 60; i++) {
             if (fs.existsSync(pathQrCode)) {
                 res.json({"session":session});
@@ -39,17 +37,12 @@ login.post("/", async (req: express.Request, res: express.Response) => {
             }
             await new Promise(r => setTimeout(r, 1000))
         }
-
     } catch (error) {
         res.send(error)
     }
-
-
-
 });
 
 
 
 
-
-export { login }
+export { token }

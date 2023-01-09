@@ -1,6 +1,8 @@
 import express = require("express");
+var cors = require('cors')
 import bodyParser = require('body-parser')
-import { api } from "./api"
+import { api } from "./api/api"
+
 
 
 export default function mainApp() {
@@ -10,7 +12,7 @@ export default function mainApp() {
 
     console.log("rodando")
 
-    
+    app.use(cors())
     app.use(bodyParser.json())
     app.use("/api", api)
     app.use('/api/qrcode/', express.static(`${__dirname}/public/qrcode/`))
